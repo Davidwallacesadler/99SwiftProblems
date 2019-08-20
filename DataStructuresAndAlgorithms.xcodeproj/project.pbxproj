@@ -13,6 +13,7 @@
 		6324FBCD22B44E62002189F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6324FBCC22B44E62002189F4 /* Assets.xcassets */; };
 		6324FBD022B44E62002189F4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6324FBCE22B44E62002189F4 /* LaunchScreen.storyboard */; };
 		6324FBDB22B44E63002189F4 /* DataStructuresAndAlgorithmsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324FBDA22B44E63002189F4 /* DataStructuresAndAlgorithmsTests.swift */; };
+		6324FBE622B44E7C002189F4 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6324FBE522B44E7C002189F4 /* List.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		6324FBD622B44E63002189F4 /* DataStructuresAndAlgorithmsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataStructuresAndAlgorithmsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6324FBDA22B44E63002189F4 /* DataStructuresAndAlgorithmsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStructuresAndAlgorithmsTests.swift; sourceTree = "<group>"; };
 		6324FBDC22B44E63002189F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6324FBE522B44E7C002189F4 /* List.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = List.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 		6324FBC422B44E60002189F4 /* DataStructuresAndAlgorithms */ = {
 			isa = PBXGroup;
 			children = (
+				6324FBE522B44E7C002189F4 /* List.swift */,
 				6324FBC522B44E61002189F4 /* AppDelegate.swift */,
 				6324FBC722B44E61002189F4 /* ViewController.swift */,
 				6324FBC922B44E61002189F4 /* Main.storyboard */,
@@ -199,6 +202,7 @@
 			files = (
 				6324FBC822B44E61002189F4 /* ViewController.swift in Sources */,
 				6324FBC622B44E61002189F4 /* AppDelegate.swift in Sources */,
+				6324FBE622B44E7C002189F4 /* List.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
