@@ -136,42 +136,54 @@ extension List where T: Equatable {
     }
 }
 
-//7. A "Flatten" method that returns a single list from a declaration of a list with multiple sublists (nested lists).
+//7. A "Flatten" method that returns a single list from a declaration of a list with multiple sublists (nested lists). SOLVED!!! 1/12/2020
 extension List {
     func flatten() -> List {
-        var superList = self
-        var superListCurrentPosition = 0
-        
-        // Traverse through the top level of the list: (superList)
-        while superList.nextItem != nil {
-            // Helper Method to recusively flatten childLists
-            func mergeChildren(childList: List, buildList: List?) -> List {
-                let currentChildList = childList
-                var returnList = buildList
-                if currentChildList.nextItem != nil {
-                    guard let currentValueAsList = currentChildList.value as? List else {
-                        returnList?.value = currentChildList.value
-                        returnList = buildList?.nextItem // This wont work!
-                        return mergeChildren(childList: currentChildList.nextItem!, buildList: returnList)
+        func flatten(currentHead: List, currentIndex: Int, buildList: List?, childListIndex: List<Int>?) -> List {
+            if currentIndex >= 0 {
+                let valueAtCurrentIndex = currentHead[currentIndex]!
+                if let valueAsList = valueAtCurrentIndex as? List {
+                    if childListIndex != nil {
+                        let newChildListIndex = List<Int>(currentIndex)!
+                        newChildListIndex.nextItem = childListIndex
+                        return flatten(currentHead: valueAsList, currentIndex: valueAsList.length - 1, buildList: buildList, childListIndex: newChildListIndex)
+                    } else {
+                         return flatten(currentHead: valueAsList, currentIndex: valueAsList.length - 1, buildList: buildList, childListIndex: List<Int>(currentIndex))
                     }
-                    return mergeChildren(childList: currentValueAsList, buildList: returnList)
                 } else {
-                    returnList?.nextItem = currentChildList
-                    return returnList!
+                    if buildList != nil {
+                        let build = List(valueAtCurrentIndex)!
+                        build.nextItem = buildList
+                        return flatten(currentHead: currentHead, currentIndex: currentIndex - 1, buildList: build, childListIndex: childListIndex)
+                    } else {
+                        let build = List(valueAtCurrentIndex)
+                        return flatten(currentHead: currentHead, currentIndex: currentIndex - 1, buildList: build, childListIndex: childListIndex)
+                    }
                 }
+            } else {
+                if childListIndex != nil {
+                    if childListIndex?.nextItem != nil {
+                        let nextChildListIndex = childListIndex?.nextItem!
+                        let childCounts = childListIndex!.length - 1
+                        var newHead = self
+                        for _ in 0..<childCounts {
+                            for _ in 0..<childListIndex!.last!  {
+                                newHead = newHead.nextItem!
+                            }
+                            newHead = newHead.value as! List
+                        }
+                        return flatten(currentHead: newHead, currentIndex: childListIndex!.value - 1, buildList: buildList, childListIndex: nextChildListIndex)
+                    } else {
+                        if childListIndex!.value == 0 {
+                            return buildList!
+                        } else {
+                            return flatten(currentHead: self, currentIndex: childListIndex!.value - 1, buildList: buildList, childListIndex: nil)
+                        }
+                    }
+                }
+                return buildList!
             }
-            // Check if the currentValue in the super list is a child List:
-            if let currentSuperValueAsList = superList.value as? List {
-                let mergedChildrenBranch = mergeChildren(childList: currentSuperValueAsList, buildList: superList)
-                let superNextItem = superList.nextItem
-                let lengthToMovePosition = mergedChildrenBranch.length - 1
-                superListCurrentPosition += lengthToMovePosition
-                superList.value = mergedChildrenBranch[0]!
-                superList.ne
-                
-            }
-            superList = superList.nextItem!
-            superListCurrentPosition += 1
         }
+        return flatten(currentHead: self, currentIndex: self.length - 1, buildList: nil, childListIndex: nil)
     }
 }

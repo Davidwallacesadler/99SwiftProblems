@@ -72,6 +72,12 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(List(Character("r"),Character("a"), Character("c"),Character("e"), Character("c"),Character("a"), Character("r"))?.isPalindrome(), true, "Given (r,a,c,e,c,a,r); The list reads the same front to back IE should be true")
     }
     
+    func testFlattenMethod() {
+       XCTAssertEqual(List(1,2,3,2,1)?.flatten()[2], 3, "Given (1,2,3,2,1); The list contains no sublists, so the value at index 2 should be 3.")
+        // CANT REALLY CHECK OTHER LISTS WITH CHILD LISTS -- SINCE I HAVE TO USE LIST<ANY>
+        // BUT I DID MAKE SURE IT DOES SOLVE THE EXAMPLE ON THE SITE.
+    }
+    
     
     
     
