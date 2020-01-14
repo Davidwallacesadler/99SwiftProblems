@@ -187,3 +187,219 @@ extension List {
         return flatten(currentHead: self, currentIndex: self.length - 1, buildList: nil, childListIndex: nil)
     }
 }
+
+// 8. A "Compress" method where consecutive elements are removed but the original order of values is maintained. SOLVED 1/13/2020
+extension List where T: Equatable {
+    func compress() {
+        var currentIndex = self.length - 1
+        var build: List?
+        if currentIndex > 1 {
+            while currentIndex >= 1 {
+                let valueAtIndex = self[currentIndex]
+                if let buildList = build {
+                    if buildList.value != valueAtIndex {
+                        let list = List(valueAtIndex!)
+                        list?.nextItem = buildList
+                        build = list
+                    }
+                } else {
+                    let list = List(valueAtIndex!)
+                    build = list
+                }
+                currentIndex -= 1
+            }
+            if self.value == build?.value {
+                self.nextItem = build?.nextItem
+            } else {
+                self.nextItem = build
+            }
+        } else {
+            return
+        }
+    }
+}
+
+
+// 9. A "Pack" method that will put consecutive duplocates into sub linked lists. Packs ALL the values in that a value will become a List containting the List that contains the value IE List(1,2,2).packed() -> List(List(1), List(2,2)). SOLVED 1/13/20
+extension List where T: Equatable {
+    func pack() -> List<List<T>> {
+        var index = self.length - 1
+        var build: List<List<T>>?
+        while index >= 0 {
+            let valueAtIndex = self[index]
+            if build != nil {
+                if let buildValueAsList = build?.value {
+                    if buildValueAsList.value == valueAtIndex {
+                        let appendList = List(valueAtIndex!)!
+                        appendList.nextItem = buildValueAsList
+                        build?.value = appendList
+                    } else {
+                        let newList = List<List<T>>(List(valueAtIndex!)!)!
+                        newList.nextItem = build
+                        build = newList
+                    }
+                }
+            } else {
+                let firstList = List(valueAtIndex!)
+                build = List<List<T>>(firstList!)
+            }
+            index -= 1
+        }
+        return build!
+    }
+}
+
+// 10. A "Run-Length Encoding" method that will return a list of tuples that count consecutive values. The tuple is of the form (N, E) where N is the count of the value frequency and E is the value being counted. SOLVED 1/13/20
+extension List where T: Equatable {
+    func encode() -> List<(Int, T)> {
+        var build: List<(Int, T)>?
+        let packedList = self.pack()
+        var currentIndex = packedList.length - 1
+        while currentIndex >= 0 {
+            let listAtIndex = packedList[currentIndex]!
+            if build != nil {
+                let newList = List<(Int, T)>((listAtIndex.length, listAtIndex[0]!))!
+                newList.nextItem = build
+                build = newList
+            } else {
+                build = List<(Int, T)>((listAtIndex.length, listAtIndex[0]!))
+            }
+            currentIndex -= 1
+        }
+        return build!
+    }
+}
+
+// 11. A "Modified Run-Length Encoding" method that will return the list of tuples that count consecutive values but in this method if a value is not repeated we will just add the value rather than a list contaning the value. SOLVED 1/13/20
+extension List where T: Equatable {
+    func encodeModified() -> List<Any> {
+        var build: List<Any>?
+        let packedList = self.pack()
+        var currentIndex = packedList.length - 1
+        while currentIndex >= 0 {
+            let listAtIndex = packedList[currentIndex]!
+            if build != nil {
+                if listAtIndex.length == 1 {
+                    let newList = List<Any>(listAtIndex[0]!)!
+                    newList.nextItem = build
+                    build = newList
+                } else {
+                    let newList = List<Any>((listAtIndex.length, listAtIndex[0]!))!
+                    newList.nextItem = build
+                    build = newList
+                }
+            } else {
+                if listAtIndex.length == 1 {
+                    build = List<Any>(listAtIndex[0]!)
+                } else {
+                    build = List<Any>((listAtIndex.length, listAtIndex[0]!))
+                }
+            }
+            currentIndex -= 1
+        }
+        return build!
+    }
+}
+
+// 12. A "Decode" method that will return a list that describes a run-length encoding list. SOLVED 1/14/20
+extension List {
+    func decode() -> List<String> {
+        var build: List<String>?
+        var currentIndex = self.length - 1
+        while currentIndex >= 0 {
+            if let valueAtIndexAsTuple = self[currentIndex] as? (Int, String) {
+                for _ in 0..<valueAtIndexAsTuple.0 {
+                    if build != nil {
+                        let list = List<String>(valueAtIndexAsTuple.1)!
+                        list.nextItem = build
+                        build = list
+                    } else {
+                        build = List<String>(valueAtIndexAsTuple.1)!
+                    }
+                }
+            }
+            currentIndex -= 1
+        }
+        return build!
+    }
+}
+
+// 13. A "Direct Run-length Encoding" method that doesn't use the .pack() method. SOLVED 1/14/20
+extension List where T: Equatable {
+    func encodeDirect() -> List<(Int, T)> {
+        var build: List<(Int, T)>?
+        var currentIndex = self.length - 1
+        while currentIndex >= 0 {
+            let valueAtIndex = self[currentIndex]!
+            if build != nil {
+                if build!.value.1 == valueAtIndex {
+                    let updateTupleList = List<(Int, T)>((build!.value.0 + 1, valueAtIndex))!
+                    updateTupleList.nextItem = build!.nextItem
+                    build = updateTupleList
+                } else {
+                    let updateTupleList = List<(Int, T)>((1, valueAtIndex))!
+                    updateTupleList.nextItem = build
+                    build = updateTupleList
+                }
+            } else {
+                build = List<(Int, T)>((1, valueAtIndex))
+            }
+            currentIndex -= 1
+        }
+        return build!
+    }
+}
+
+// 14. A "Duplicate" method that duplicates all elements of a linked list in order. IE List(a,b,c).duplicate -> List(a,a,b,b,c,c). SOLVED 1/14/20
+extension List {
+    func duplicate() -> List {
+        var build: List?
+        var currentIndex = self.length - 1
+        while currentIndex >= 0 {
+            let valueAtIndex = self[currentIndex]!
+            if build != nil {
+                let list = List(valueAtIndex)!
+                list.nextItem = build!
+                let duplicate = List(valueAtIndex)!
+                duplicate.nextItem = list
+                build = duplicate
+                
+            } else {
+                build = List(valueAtIndex)!
+                build?.nextItem = List(valueAtIndex)!
+            }
+            currentIndex -= 1
+        }
+        return build!
+    }
+}
+
+// 15. A "N-Duplicate" method that duplicates elements a given number of times. you get N - 1 copies. SOLVED 1/14/20
+extension List {
+    func duplicate(times: Int) -> List {
+        var build: List?
+        var currentIndex = self.length - 1
+        while currentIndex >= 0 {
+            let valueAtIndex = self[currentIndex]!
+            if build != nil {
+                for _ in 0..<times {
+                    let list = List(valueAtIndex)!
+                    list.nextItem = build
+                    build = list
+                }
+            } else {
+                for _ in 0..<times {
+                    let list = List(valueAtIndex)!
+                    if build != nil {
+                        list.nextItem = build
+                        build = list
+                    } else {
+                        build = list
+                    }
+                }
+            }
+            currentIndex -= 1
+        }
+        return build!
+    }
+}

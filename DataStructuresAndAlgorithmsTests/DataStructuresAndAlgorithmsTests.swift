@@ -78,6 +78,16 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         // BUT I DID MAKE SURE IT DOES SOLVE THE EXAMPLE ON THE SITE.
     }
     
+    func testCompressMethod() {
+        let listOne = List(1,1,2,3,1,1)!
+        listOne.compress()
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        listTwo.compress()
+        XCTAssertEqual(listOne[3], 1, "Given (1,1,2,3,1,1); The 4th value in the list should be 1")
+        XCTAssertEqual(listTwo.length, 6, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The compressed length should be 6")
+        XCTAssertEqual(listTwo[4], "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 5th value of compressed length should be d")
+    }
+    
     
     
     
