@@ -403,3 +403,62 @@ extension List {
         return build!
     }
 }
+
+// 16. A "Drop" method that drops every Nth element from a list. SOLVED 1/14/20
+extension List {
+    func drop(every: Int) -> List? {
+        if every == 0 || every == 1 {
+            return nil
+        } else {
+            var build: List?
+            var currentIndex = self.length - 1
+            while currentIndex >= 0 {
+                let valueAtIndex = self[currentIndex]!
+                if build != nil {
+                    if (currentIndex + 1) % every != 0 || currentIndex == 0 {
+                        let list = List(valueAtIndex)!
+                        list.nextItem = build
+                        build = list
+                    }
+                } else {
+                    if (currentIndex + 1) % every != 0 {
+                        build = List(valueAtIndex)
+                    }
+                }
+                currentIndex -= 1
+            }
+             return build
+        }
+    }
+}
+
+// 17. A "Split" method to split a list into two parts at a given index.
+extension List {
+    func split(atIndex: Int) -> (left: List, right: List) {
+        var rightBuildList: List?
+        var leftBuildList: List?
+        var currentIndex = self.length - 1
+        while currentIndex >= 0 {
+            let valueAtIndex = self[currentIndex]!
+            if currentIndex >= atIndex {
+                if rightBuildList != nil {
+                    let next = List(valueAtIndex)
+                    next?.nextItem = rightBuildList
+                    rightBuildList = next
+                } else {
+                    rightBuildList = List(valueAtIndex)
+                }
+            } else {
+                if leftBuildList != nil {
+                    let next = List(valueAtIndex)
+                    next?.nextItem = leftBuildList
+                    leftBuildList = next
+                } else {
+                    leftBuildList = List(valueAtIndex)
+                }
+            }
+            currentIndex -= 1
+        }
+        return (leftBuildList!, rightBuildList!)
+    }
+}
