@@ -24,6 +24,7 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
     
     // MARK: - List Unit Tests
     
+    // 1.
     /// Tests for the proper calculation of the "last" property of a List.
     func testListLastProperty() {
         XCTAssertEqual(List(1,2,3,4,5)?.last, 5, "The last value in the list (1,2,3,4,5) should be 5")
@@ -32,6 +33,7 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(List(Character("a"),Character("b"), Character("c"))?.last, Character("c"), "The last value in the list ('a','b','c') should be the character 'c'")
     }
     
+    // 2.
     /// Tests for the proper calculation of the "pennultimate" property of a List.
     func testListPennultimateProperty() {
         XCTAssertEqual(List(1,2,3,4,5)?.pennultimate, 4, "The pennultimate value in the list (1,2,3,4,5) should be 4")
@@ -40,6 +42,7 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(List(Character("a"),Character("b"), Character("c"))?.pennultimate, Character("b"), "The pennultimate value in the list ('a','b','c') should be the character 'b'")
     }
     
+    // 3.
     /// Tests for the proper calculation of the subscripting method of a List.
     func testListSubscriptingMethod() {
         XCTAssertEqual(List(1,2,3,4,5)?[0], 1, "Given the list (1,2,3,4,5) the value at index 1 should be 2")
@@ -48,6 +51,7 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(List(Character("a"),Character("b"), Character("c"))?[1], Character("b"), "Given the list ('a','b','c') The value at index 1 should be the character 'b'")
     }
     
+    // 4.
     /// Tests for the proper calculation of the "length" property of a List.
     func testListLengthProperty() {
         XCTAssertEqual(List(1,2,3,4,5)?.length, 5, "The length of the list (1,2,3,4,5) should be 5")
@@ -56,6 +60,7 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(List(Character("a"),Character("b"), Character("c"))?.length, 3, "The length of the list ('a','b','c') should be 3")
     }
     
+    // 5.
     /// Tests for the proper reversing of the List.
     func testListReverseMethod() {
         XCTAssertEqual(List(1,2,3,4,5)?.reverse()[1], 4, "Given (1,2,3,4,5); The second value in the reversed list should be 4")
@@ -64,6 +69,7 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(List(Character("a"),Character("b"), Character("c"))?.reverse()[2], Character("a"), "Given (a,b,c); the last value of the revered list should be 'a'")
     }
     
+    // 6.
     /// Tests for the proper checking if a list is a palindrome.
     func testListPalindromeMethod() {
         XCTAssertEqual(List(1,2,3,2,1)?.isPalindrome(), true, "Given (1,2,3,2,1); The list reads the same front to back IE should be true")
@@ -71,13 +77,15 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(List(1.0)?.isPalindrome(), true, "Given (1.0); The list automatically reads the same front to back IE should be true")
         XCTAssertEqual(List(Character("r"),Character("a"), Character("c"),Character("e"), Character("c"),Character("a"), Character("r"))?.isPalindrome(), true, "Given (r,a,c,e,c,a,r); The list reads the same front to back IE should be true")
     }
-    
+     
+    // 7.
     func testFlattenMethod() {
        XCTAssertEqual(List(1,2,3,2,1)?.flatten()[2], 3, "Given (1,2,3,2,1); The list contains no sublists, so the value at index 2 should be 3.")
         // CANT REALLY CHECK OTHER LISTS WITH CHILD LISTS -- SINCE I HAVE TO USE LIST<ANY>
         // BUT I DID MAKE SURE IT DOES SOLVE THE EXAMPLE ON THE SITE.
     }
     
+    // 8.
     func testCompressMethod() {
         let listOne = List(1,1,2,3,1,1)!
         listOne.compress()
@@ -88,20 +96,126 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(listTwo[4], "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 5th value of compressed length should be d")
     }
     
+    // 9.
+    func testPackMethod() {
+        let listOne = List(1,1,15,15,2,2,1)!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        XCTAssertEqual(listOne.pack()[0]![1], 1, "Given (1,1,2,3,1,1); The 2nd value in the first subList should be 1")
+        XCTAssertEqual(listOne.pack()[2]![0], 2, "Given (1,1,2,3,1,1); The 1st value in the third subList should be 2")
+        XCTAssertEqual(listTwo.pack()[0]![3], "a", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 4th value in the first subList should be a")
+        XCTAssertEqual(listTwo.pack()[4]![0], "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 1st value in the first subList should be e")
+    }
+    
+    // 10.
+    func testEncodeMethod() {
+        let listOne = List(1,1,15,15,2,2,2,1)!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        XCTAssertEqual(listOne.encode()[0]!.0, 2, "Given (1,1,2,3,1,1); The frequency value in the first tuple should be 2")
+        XCTAssertEqual(listOne.encode()[2]!.0, 3, "Given (1,1,2,3,1,1); The freqeuncy value in the third tuple should be 3")
+        XCTAssertEqual(listTwo.encode()[0]!.0, 4, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The frequency value in the first tuple should be 4")
+        XCTAssertEqual(listTwo.encode()[4]!.1, "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The value in the 5th tuple should be d")
+    }
+    
+    // 11.
+    func testModifiedEncoding() {
+        let listOne = List(1,1,15,15,2,2,2,1)!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let listOneTuple = listOne.encodeModified()[0]! as! (Int,Int)
+        let listOneValue = listOne.encodeModified()[3]! as! Int
+        let listTwoTuple = listTwo.encodeModified()[2]! as! (Int,String)
+        let listTwoValue = listTwo.encodeModified()[4]! as! String
+        XCTAssertEqual(listOneTuple.0, 2, "Given (1,1,2,3,1,1); The frequency value in the first tuple should be 2")
+        XCTAssertEqual(listOneValue, 1, "Given (1,1,2,3,1,1); The final value in the list 3")
+        XCTAssertEqual(listTwoTuple.0, 2, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The frequency value in the 3rd tuple should be 2")
+        XCTAssertEqual(listTwoValue, "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 5th value in the list should be d")
+    }
+    
+    // 12.
+    func testDecodeMethod() {
+        let listOne = List("z","z","zoo","zoo","a","b")!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let listOneEncoded = listOne.encodeModified()
+        let listTwoEncoded = listTwo.encodeModified()
+        let listOneDecoded = listOneEncoded.decode()
+        let listTwoDecoded = listTwoEncoded.decode()
+        XCTAssertEqual(listOneDecoded[4]!, "a", "Given (z,z,zoo,zoo,a,b); The 5th value in the list should be a")
+        XCTAssertEqual(listOneDecoded[1]!, "z", "Given (z,z,zoo,zoo,a,b); The second value in the list z")
+        XCTAssertEqual(listTwoDecoded[8]!, "a", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 9th value in the list should be a")
+        XCTAssertEqual(listTwoDecoded[9]!, "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 11th value in the list should be d")
+    }
+    
+    // 13.
+    func testEncodeDirectMethod() {
+        let listOne = List(1,1,15,15,2,2,2,1)!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let listOneEncoded = listOne.encodeDirect()
+        let listTwoEncoded = listTwo.encodeDirect()
+        XCTAssertEqual(listOneEncoded[2]!.0, 3, "Given (1,1,15,15,2,2,2,1); The frequency value in the 3rd tuple should be 3")
+        XCTAssertEqual(listOneEncoded[3]!.0, 1, "Given (1,1,15,15,2,2,2,1); The frequency value in the 4th tuple should be 1")
+        XCTAssertEqual(listTwoEncoded[5]!.1, "e", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The counted value in the 6th tuple should be a")
+        XCTAssertEqual(listTwoEncoded[4]!.0, 1, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The frequency value in the 5th tuple should be 1")
+    }
+    
+    // 14.
+    func testDuplicateMethod() {
+        let listOne = List(1,1,15,15,2,2,2,1)!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let listOneDuplicated = listOne.duplicate()
+        let listTwoDuplicated = listTwo.duplicate()
+        XCTAssertEqual(listOneDuplicated[7]!, 15, "Given (1,1,15,15,2,2,2,1); The 8th value in the duplicated list should be 15")
+        XCTAssertEqual(listOneDuplicated.length, 16, "Given (1,1,15,15,2,2,2,1); The length of the duplicated list should be 16")
+        XCTAssertEqual(listTwoDuplicated.length, 28, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The length of the duplicated list should be 28")
+        XCTAssertEqual(listTwoDuplicated[19]!, "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 21st value in the duplicated list should be d")
+    }
+    
+    // 15.
+    func testNDuplicateMethod() {
+        let listOne = List(1,1,15,15,2,2,2,1)!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let listOneDuplicated = listOne.duplicate(times: 3)
+        let listTwoDuplicated = listTwo.duplicate(times: 2)
+        XCTAssertEqual(listOneDuplicated[7]!, 15, "Given (1,1,15,15,2,2,2,1); The 8th value in the duplicated list should be 15")
+        XCTAssertEqual(listOneDuplicated.length, 24, "Given (1,1,15,15,2,2,2,1); The length of the duplicated list should be 24")
+        XCTAssertEqual(listTwoDuplicated.length, 28, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The length of the duplicated list should be 28")
+        XCTAssertEqual(listTwoDuplicated[19]!, "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 21st value in the duplicated list should be d")
+    }
+    
+    // 16.
+    func testDropMethod() {
+        let listOne = List(1,1,15,15,2,2,2,1)!
+        let listTwo = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let listOneDropped = listOne.drop(every: 2)
+        let listTwoDropped = listTwo.drop(every: 7)
+        XCTAssertEqual(listOneDropped!.last, 2, "Given (1,1,15,15,2,2,2,1); The last value in the dropped list should be 2")
+        XCTAssertEqual(listOneDropped!.length, 4, "Given (1,1,15,15,2,2,2,1); The length of the dropped list should be 4")
+        XCTAssertEqual(listTwoDropped!.length, 12, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The length of the dropped list should be 26")
+        XCTAssertEqual(listTwoDropped![7]!, "a", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 8th value in the dropped list should be c")
+    }
     
     
-    
-//
-//    func testExample() {
-//        // This is an example of a functional test case.
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//    }
-//
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
+    // 17.
+    func testSplitMethod() {
+        let list = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let splitList = list.split(leftLength: 5)
+        let splitListLeft = splitList.left
+        let splitListRight = splitList.right
+        XCTAssertEqual(splitListLeft.last!, "b", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The left split list last value should be 2")
+        XCTAssertEqual(splitListLeft.length, 5, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The length of the left split list should be 5")
+        XCTAssertEqual(splitListRight[4], "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 4th value of right split list should be d")
+        XCTAssertEqual(splitListRight.length, 9, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The length of the right split list should be 8")
 
+    }
+    
+    // 18.
+    func testSliceMethod() {
+        let list = List("a", "a", "a", "a", "b", "c", "c", "a", "a", "d", "e", "e", "e", "e")!
+        let listSliced = list.slice(from: 4, 10)
+        XCTAssertEqual(listSliced.last!, "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The last value in the sliced list should be d")
+        XCTAssertEqual(listSliced.length, 6, "Given (a,a,a,a,b,c,c,a,a,d,e,e); The length of the sliced list should be 5")
+        XCTAssertEqual(listSliced[1]!, "c", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 2nd value of sliced list should be c")
+        XCTAssertEqual(listSliced[5]!, "d", "Given (a,a,a,a,b,c,c,a,a,d,e,e); The 6th value of the sliced list should be d")
+    }
+    
+    // 19.
 }
+

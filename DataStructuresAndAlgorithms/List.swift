@@ -270,7 +270,7 @@ extension List where T: Equatable {
     }
 }
 
-// 11. A "Modified Run-Length Encoding" method that will return the list of tuples that count consecutive values but in this method if a value is not repeated we will just add the value rather than a list contaning the value. SOLVED 1/13/20
+// 11. A "Modified Run-Length Encoding" method that will return the list of tuples that count consecutive values but in this method if a value is not repeated we will just add the value. SOLVED 1/13/20
 extension List where T: Equatable {
     func encodeModified() -> List<Any> {
         var build: List<Any>?
@@ -315,6 +315,16 @@ extension List {
                         build = list
                     } else {
                         build = List<String>(valueAtIndexAsTuple.1)!
+                    }
+                }
+            } else {
+                if let valueAtIndexAsValue = self[currentIndex] as? String {
+                    if build != nil {
+                        let list = List<String>(valueAtIndexAsValue)!
+                        list.nextItem = build
+                        build = list
+                    } else {
+                        build = List<String>(valueAtIndexAsValue)!
                     }
                 }
             }
@@ -433,14 +443,15 @@ extension List {
 }
 
 // 17. A "Split" method to split a list into two parts at a given index.
+// NOTE: I didn't know you could name your tuple coordinates in this way in the return signature!
 extension List {
-    func split(atIndex: Int) -> (left: List, right: List) {
+    func split(leftLength: Int) -> (left: List, right: List) {
         var rightBuildList: List?
         var leftBuildList: List?
         var currentIndex = self.length - 1
         while currentIndex >= 0 {
             let valueAtIndex = self[currentIndex]!
-            if currentIndex >= atIndex {
+            if currentIndex >= leftLength {
                 if rightBuildList != nil {
                     let next = List(valueAtIndex)
                     next?.nextItem = rightBuildList
@@ -460,5 +471,26 @@ extension List {
             currentIndex -= 1
         }
         return (leftBuildList!, rightBuildList!)
+    }
+}
+
+// 18. A "Slice" method that returns a slice such that given (I,K) the return list will be a slice from the values in the range I..<K.
+extension List {
+    func slice(from: Int, _ to: Int) -> List {
+        var build: List?
+        var currentIndex = to - 1
+        while currentIndex >= from {
+            if let valueAtIndex = self[currentIndex] {
+                if build != nil {
+                    let next = List(valueAtIndex)
+                    next?.nextItem = build
+                    build = next
+                } else {
+                    build = List(valueAtIndex)
+                }
+            }
+            currentIndex -= 1
+        }
+        return build!
     }
 }
