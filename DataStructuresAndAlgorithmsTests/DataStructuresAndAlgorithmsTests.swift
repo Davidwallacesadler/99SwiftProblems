@@ -217,5 +217,16 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
     }
     
     // 19.
+    func testRotateMethod() {
+        let list = List("a","b","c","d","e","f","g","h","i","j","k")!
+        let postiveRotatation = list.rotate(amount: 3)
+        let negativeRotation = list.rotate(amount: -2)
+        XCTAssertEqual(postiveRotatation.last!, "c", "Given (a,b,c,d,e,f,g,h,i,j,k); The last value in the rotated list should be c")
+        XCTAssertEqual(postiveRotatation[7]!, "k", "Given (a,b,c,d,e,f,g,h,i,j,k); The 8th value in the rotated list should be k")
+        XCTAssertEqual(negativeRotation.last!, "i", "Given (a,b,c,d,e,f,g,h,i,j,k); The last value in the rotated list should be i")
+        XCTAssertEqual(negativeRotation[4]!, "c", "Given (a,b,c,d,e,f,g,h,i,j,k); The 5th value in the rotated list should be c")
+    }
+    
+    
 }
 

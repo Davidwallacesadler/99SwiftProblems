@@ -494,3 +494,40 @@ extension List {
         return build!
     }
 }
+
+// 19. A "Rotate" method that will return a list that is rotated N places to the left.
+extension List {
+    func rotate(amount: Int) -> List {
+        var buildList: List?
+        var buildLength = 0
+        var fixedAmount = amount
+        let length = self.length
+        if amount == 0 {
+            return self
+        }
+        if amount < 0 {
+            fixedAmount = length + amount
+        }
+        var currentIndex = fixedAmount - 1
+        while buildLength < length {
+            if currentIndex == -1 {
+                currentIndex = length - 1
+            } else {
+                let valueAtIndex = self[currentIndex]!
+                if buildList != nil {
+                    let next = List(valueAtIndex)
+                    next?.nextItem = buildList
+                    buildList = next
+                    buildLength += 1
+                } else {
+                    buildList = List(valueAtIndex)
+                    buildLength += 1
+                }
+                currentIndex -= 1
+            }
+        }
+       return buildList!
+    }
+}
+
+
