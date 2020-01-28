@@ -530,4 +530,34 @@ extension List {
     }
 }
 
+// 20. A "Remove" method that will remove the value at the Kth position and the rest of the list remains the same. This method will return the list after the value has been removed as well as the value removed.
+extension List {
+    func removeAt(position: Int) -> (rest: List?, removed: T?) {
+        let length = self.length
+        if (0..<length).contains(position) {
+            var removed: T?
+            var buildList: List?
+            var currentIndex = length - 1
+            while currentIndex >= 0 {
+                let valueAtIndex = self[currentIndex]!
+                if currentIndex == position {
+                    removed = valueAtIndex
+                } else {
+                    if buildList != nil {
+                        let next = List(valueAtIndex)
+                        next?.nextItem = buildList
+                        buildList = next
+                    } else {
+                        buildList = List(valueAtIndex)
+                    }
+                }
+                currentIndex -= 1
+            }
+            return (buildList, removed)
+        } else {
+            return (nil,nil)
+        }
+    }
+}
+
 

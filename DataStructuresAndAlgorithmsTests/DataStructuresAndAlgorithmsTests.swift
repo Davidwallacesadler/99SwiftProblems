@@ -227,6 +227,16 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(negativeRotation[4]!, "c", "Given (a,b,c,d,e,f,g,h,i,j,k); The 5th value in the rotated list should be c")
     }
     
-    
+    // 20.
+    func testRemoveMethod() {
+        let listOne = List("a","b","c","d","e","f","g","h","i","j","k")!
+        let listTwo = List(1,1,15,15,2,2,2,1)!
+        let listOneRemoved = listOne.removeAt(position: 5)
+        let listTwoRemoved = listTwo.removeAt(position: 0)
+        XCTAssertEqual(listOneRemoved.rest![5], "g", "Given (a,b,c,d,e,f,g,h,i,j,k); The 6th value in the removed list should be e")
+        XCTAssertEqual(listOneRemoved.removed!, "f", "Given (a,b,c,d,e,f,g,h,i,j,k); The removed value should be f")
+        XCTAssertEqual(listTwoRemoved.rest![3], 2, "Given (1,1,15,15,2,2,2,1); The 4th value in the removed list should be 15")
+        XCTAssertEqual(listTwoRemoved.removed!, 1, "Given (1,1,15,15,2,2,2,1); The removed value should be 15")
+    }
 }
 
