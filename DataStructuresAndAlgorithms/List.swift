@@ -560,4 +560,36 @@ extension List {
     }
 }
 
-
+// 21. An "Insert" method that will insert the desired value at the target index -- after the addition of the value into the list it will be at the desired index.
+extension List {
+    func insert(index: Int, _ value: T) {
+        var buildList: List?
+        var currentIndex = self.length - 1
+        while currentIndex >= 0 {
+            let valueAtIndex = self[currentIndex]!
+            if currentIndex == (index - 1) {
+                if buildList != nil {
+                    let next = List(value)
+                    next?.nextItem = buildList
+                    buildList = next
+                } else {
+                    buildList = List(value)
+                }
+            }
+            if buildList != nil {
+                let next = List(valueAtIndex)
+                next?.nextItem = buildList
+                buildList = next
+            } else {
+                buildList = List(valueAtIndex)
+            }
+            currentIndex -= 1
+        }
+        if index == 0 {
+            self.value = value
+            self.nextItem = buildList
+        } else {
+            self.nextItem = buildList?.nextItem
+        }
+    }
+}
