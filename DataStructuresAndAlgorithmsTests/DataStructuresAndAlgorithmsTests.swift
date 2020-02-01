@@ -238,5 +238,25 @@ class DataStructuresAndAlgorithmsTests: XCTestCase {
         XCTAssertEqual(listTwoRemoved.rest![3], 2, "Given (1,1,15,15,2,2,2,1); The 4th value in the removed list should be 15")
         XCTAssertEqual(listTwoRemoved.removed!, 1, "Given (1,1,15,15,2,2,2,1); The removed value should be 15")
     }
+    
+    // 21.
+    func testInsertMethod() {
+        let listOne = List("a","b","c","d","e","f","g","h","i","j","k")!
+        let listTwo = List(1,1,15,15,2,2,2,1)!
+        listOne.insert(index: 0, "new")
+        listTwo.insert(index: 2, 25)
+        XCTAssertEqual(listOne[1], "a", "Given (a,b,c,d,e,f,g,h,i,j,k) and inserting 'new' at index 0; the second value in the list should be a")
+        XCTAssertEqual(listTwo[4], 15, "Given (1,1,15,15,2,2,2,1) and inserting 25 at index 2; the fifth value in the list should be 15s")
+    }
+    
+    func testRangeMethod() {
+        let listOne = List<Int>.range(from: 4, 9)
+        let listTwo = List<Int>.range(from: 0, 1)
+        let listThree = List<Int>.range(from: 1, 1)
+        XCTAssertEqual(listOne.length, 6, "Given the generated range list (4,5,6,7,8,9); the length should be 6")
+        XCTAssertEqual(listTwo.last, 1, "Given the generated range list (0,1); the last value should be 2")
+        XCTAssertEqual(listThree.length, 1, "Given the generate range list (1); the length should be 1")
+    }
+    
 }
 

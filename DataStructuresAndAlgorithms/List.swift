@@ -593,3 +593,76 @@ extension List {
         }
     }
 }
+
+// 22. A "Range" method that will return a list of integers in a specified range. ** Note that this is a type method. All the methods written up to this point are instance methods -- methods that are called on an instance of a type. Type methods refer to the type itself rather than an instance of the type. This is almost the same as static func's -- the only difference is the class methods can allow subclasses to override this method. **
+extension List {
+    class func range(from: Int, _ to: Int) -> List<Int> {
+        if from > to {
+            return List<Int>(from)!
+        }
+        var buildList: List<Int>?
+        var currentIndex = to
+        while currentIndex >= from {
+            if buildList != nil {
+                let next = List<Int>(currentIndex)
+                next?.nextItem = buildList
+                buildList = next
+            } else {
+                buildList = List<Int>(currentIndex)
+            }
+            currentIndex -= 1
+        }
+        return buildList!
+    }
+}
+
+// 23. A "Random Select" method that will return the specified number of random elements from the list. This is currently not an amazing solution -- possibility of going way over O(N) computations since randomElement could keep returning the same index that is already in the set. Not sure how to test this either.
+extension List {
+    func randomSelect(amount: Int) -> List {
+        var buildList: List?
+        let indexRange = 0..<self.length
+        var randomIndexSet = Set<Int>()
+        while randomIndexSet.count < amount {
+            randomIndexSet.insert(indexRange.randomElement()!)
+        }
+        for index in randomIndexSet {
+            if buildList != nil {
+                let next = List(self[index]!)
+                next?.nextItem = buildList
+                buildList = next
+            } else {
+                buildList = List(self[index]!)
+            }
+        }
+        return buildList!
+    }
+}
+
+// 24. A "Lotto" methods that takes in (N,M) and returns a list consisting of N random integers from the range 1...M. Note: this is a type method.
+extension List {
+    class func lotto(numbers: Int,_ maximum: Int) -> List<Int> {
+        var buildList: List<Int>?
+        let valueRange = 1...maximum
+        var randomNumberSet = Set<Int>()
+        while randomNumberSet.count <= numbers {
+            randomNumberSet.insert(valueRange.randomElement()!)
+        }
+        for value in randomNumberSet {
+            if buildList != nil {
+                let next = List<Int>(value)
+                next?.nextItem = buildList
+                buildList = next
+            } else {
+                buildList = List<Int>(value)
+            }
+        }
+        return buildList!
+    }
+}
+
+// 25. A "Random Permute" that permutes the given list's values and returns the permuted list.
+extension List {
+    func randomPermute() -> List {
+        return self.randomSelect(amount: self.length)
+    }
+}
